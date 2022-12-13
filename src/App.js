@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InsertWord from './components/Insert_component';
 import SearchWord from './components/Search_component';
 import ListDocs from './components/List_component';
@@ -16,6 +16,21 @@ import {
 } from "react-router-dom";
 
 function App() {
+  const [list, setList] = useState([])
+  const [data, setData] = useState([])
+  
+  useEffect(() => {
+      const getDocuments = async () => {
+          const dbGetRef = collection(db, "users");
+          const snapshot = await getDocs(dbGetRef);
+          snapshot.forEach(doc => {
+              setList(list => [list, <br/>, doc.id])
+              setData(data => [data, <br/>, doc.data().input_word])
+          });
+      } 
+      getDocuments();
+  }, []);
+
   const firebaseConfig = {
     apiKey: "AIzaSyBaVgjd87I4wSu3Rhj-TUg5tGw7Ne4HkJo",
     authDomain: "pastebin-51b71.firebaseapp.com",
@@ -48,7 +63,7 @@ function App() {
       <Routes>
         <Route path='/' element={<InsertWord insertWord={exportWords()} db={db} addWord={InsertNewWord} />}/>
         <Route path='/SearchDoc' element={<SearchWord searchWord={exportWords()} />}/>
-        <Route path='/Doclist' element={<ListDocs db={db}/>}/>
+        <Route path='/Doclist' element={<ListDocs db={db} list={list} data={data} />}/>
       </Routes>
       </>
       </div>
