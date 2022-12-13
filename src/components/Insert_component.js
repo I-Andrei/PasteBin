@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore/lite';
 
 let alert = ""
 
@@ -10,21 +11,28 @@ function InsertWord(props) {
     setInput_word(event.target.value)
   }
 
-  function ButtonClicked() {
-    if(props.insertWord.indexOf(input_word) === -1){
-      alert = "You inserted the word in the dictionary!"
-      props.addWord(input_word)
-    } else
-      alert = "The word already exists!"
+  async function ButtonClicked() {
+    const dbRef = collection(props.db, "users");
+    const data = {input_word};
+    addDoc(dbRef, data)
+    .then(docRef => {
+      console.log(dbRef.id)
+      console.log("Document has been added successfully");
+    })
+    .catch(error => {
+      console.log(error);
+    })
     setInput_word("")
   }
+  
+  
 
   return (
     <div>
       <label>Post Name / Title:</label>
       <input type="textarea" id="textBox" onChange={typedWord} placeholder="Title"></input>
       <div><label>Write Text:</label></div>
-      <input class="inputBox" type="textarea" id="textBox" onChange={typedWord} placeholder="Text Here"></input>
+      <input className="inputBox" type="textarea" id="textBox" onChange={typedWord} placeholder="Text Here"></input>
       <div><button type="button" onClick={()=> ButtonClicked()}> Create New Post </button></div>
       <div>{alert}</div>
     </div>
