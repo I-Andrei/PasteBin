@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
-import InsertWord from './components/Insert';
-import ListDocs from './components/List';
+import InsertWord from './components/InsertPaste';
+import ListDocs from './components/PasteList';
 import { NavBar } from './components/NavigationBar';
 import {
   Routes, 
@@ -27,8 +27,8 @@ function App() {
       <NavBar/>
       <Routes>
         <Route path='/' element={<InsertWord insertWord={exportWords()} addWord={InsertNewWord} />}/>
-        <Route path='/Doclist' element={<ListDocs />}/>
-        <Route path='/Doclist/:idList' element={<ListDocs/>} />
+        <Route path='/paste' element={<ListDocs />}/>
+        <Route path='/paste/:ids' element={<ListDocs/>} />
       </Routes>
       </>
       </div>

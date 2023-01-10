@@ -6,7 +6,7 @@ import { db } from "../firebase";
 function ListDocs() {
     const [data, setData] = useState([])
     const [content, setContent] = useState([])
-    let {idList} = useParams();
+    let {ids} = useParams();
     useEffect(() => {
         const getDocuments = async () => {
             const dbGetRef = collection(db, "users");
@@ -19,9 +19,8 @@ function ListDocs() {
     }, []);
     
     function docContent(){
-        console.log(idList)
-        if(idList > ''){
-            const singleDocRef = doc(db, 'users', idList);
+        if(ids > ''){
+            const singleDocRef = doc(db, 'users', ids);
             getDoc(singleDocRef)
                 .then((doc) => {
                     setContent(doc.data().input_word)
@@ -34,7 +33,7 @@ function ListDocs() {
 
     return (
             <div>{data.map((item) => 
-                <div><Link to={'/Doclist/' + item.id}>{item.content}</Link></div>)}
+                <div><Link to={'/paste/' + item.id}>{item.content}</Link></div>)}
                 <div>Document text: {docContent()}</div>
             </div>
     )

@@ -4,7 +4,7 @@ export function NavBar(){
     return (
         <nav>
             <Link to='/'>Home</Link>
-            <Link to='/Doclist'>DocsList</Link>
+            <Link to='/paste'>DocsList</Link>
         </nav>
     )
 }
