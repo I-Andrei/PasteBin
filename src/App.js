@@ -1,49 +1,14 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
-import InsertWord from './components/Insert_component';
-import SearchWord from './components/Search_component';
-import ListDocs from './components/List_component';
+import React, { useState } from 'react';
+import InsertWord from './components/Insert';
+import ListDocs from './components/List';
 import { NavBar } from './components/NavigationBar';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore/lite';
-import { createRoot } from "react-dom/client";
 import {
-  createBrowserRouter,
-  RouterProvider,
   Routes, 
   Route,
-  Link,
 } from "react-router-dom";
 
 function App() {
-  const [list, setList] = useState([])
-  const [data, setData] = useState([])
-  
-  useEffect(() => {
-      const getDocuments = async () => {
-          const dbGetRef = collection(db, "users");
-          const snapshot = await getDocs(dbGetRef);
-          snapshot.forEach(doc => {
-              setList(list => [list, <br/>, doc.id])
-              setData(data => [data, <br/>, doc.data().input_word])
-          });
-      } 
-      getDocuments();
-  }, []);
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBaVgjd87I4wSu3Rhj-TUg5tGw7Ne4HkJo",
-    authDomain: "pastebin-51b71.firebaseapp.com",
-    projectId: "pastebin-51b71",
-    storageBucket: "pastebin-51b71.appspot.com",
-    messagingSenderId: "957075870217",
-    appId: "1:957075870217:web:8b740f8d21caa893675ed8",
-    measurementId: "G-GY4SKQYNJZ"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
   const [words, setWords] = useState([])
   
   function exportWords () {
@@ -61,9 +26,9 @@ function App() {
       <>
       <NavBar/>
       <Routes>
-        <Route path='/' element={<InsertWord insertWord={exportWords()} db={db} addWord={InsertNewWord} />}/>
-        <Route path='/SearchDoc' element={<SearchWord searchWord={exportWords()} />}/>
-        <Route path='/Doclist' element={<ListDocs db={db} list={list} data={data} />}/>
+        <Route path='/' element={<InsertWord insertWord={exportWords()} addWord={InsertNewWord} />}/>
+        <Route path='/Doclist' element={<ListDocs />}/>
+        <Route path='/Doclist/:idList' element={<ListDocs/>} />
       </Routes>
       </>
       </div>

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore/lite';
+import { collection, addDoc } from 'firebase/firestore/lite';
+import { db } from "../firebase";
 
 let alert = ""
 
-function InsertWord(props) {
+function InsertWord() {
   
   const [input_word, setInput_word] = useState("")
 
@@ -12,7 +13,7 @@ function InsertWord(props) {
   }
 
   async function ButtonClicked() {
-    const dbRef = collection(props.db, "users");
+    const dbRef = collection(db, "users");
     const data = {input_word};
     addDoc(dbRef, data)
     .then(docRef => {
